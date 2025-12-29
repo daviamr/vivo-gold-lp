@@ -4,12 +4,26 @@ import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group"
 import { Checkbox } from "../ui/checkbox"
-import { useState } from "react"
-import { Button } from "../ui/button"
+import { useCallback, useEffect, useState } from "react"
 
-function Index() {
+function Index({ onSubmit }: FormPfPjProps) {
   const [withoutNumber, setWithoutNumber] = useState(false)
   console.log(withoutNumber)
+
+  const handleSubmit = useCallback(async () => {
+    try {
+      console.log('Formulário enviado com sucesso')
+    } catch (error: any) {
+      console.log('Erro ao enviar requisição', error)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (onSubmit) {
+      handleSubmit()
+    }
+  }, [onSubmit, handleSubmit])
+
   return (
     <form className="px-2">
       <div className='flex flex-col gap-2 mb-8'>
@@ -57,12 +71,12 @@ function Index() {
           <Label htmlFor="withoutNumber" className="opacity-75">Sem número</Label>
         </div>
       </div>
-
-      <Button variant={'vivo'} className="w-full text-white text-1xl font-bold py-8 mt-8">
-        Consultar Planos Vivo Fibra
-      </Button>
     </form>
   )
 }
 
 export default Index
+
+type FormPfPjProps = {
+  onSubmit?: boolean
+}
