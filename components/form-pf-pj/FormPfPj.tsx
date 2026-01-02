@@ -26,11 +26,11 @@ function Index({ onSubmit }: FormPfPjProps) {
 
   return (
     <form className="px-2">
-      <div className='flex flex-col gap-2 mb-8'>
+      <div className='flex flex-col gap-2 mb-8 lg:flex-row'>
         <h2 className='text-lg'>Buscar planos para:</h2>
 
-        <RadioGroup defaultValue="Minha Casa">
-          <div className="flex items-center gap-2">
+        <RadioGroup defaultValue="Minha Casa" className="lg:flex lg:flex-row lg:gap-6">
+          <div className="flex items-center gap-2 lg:ml-4">
             <RadioGroupItem value="Minha Casa" id="r1" />
             <Label htmlFor="r1" className="font-light text-1xl">Minha Casa</Label>
           </div>
@@ -42,7 +42,7 @@ function Index({ onSubmit }: FormPfPjProps) {
       </div>
 
       <span className="opacity-75 text-sm">* Digite o CEP de onde deseja instalar a Vivo Fibra.</span>
-      <div className="flex flex-col gap-4 my-4 font-normal">
+      <div className="grid gap-4 my-4 font-normal lg:grid-cols-2">
         <Input
           type="text"
           placeholder="CEP"
@@ -52,23 +52,24 @@ function Index({ onSubmit }: FormPfPjProps) {
             showMaskOnHover: false,
             showMaskOnFocus: false
           })} />
-
-        {withoutNumber ? (
-          <Input type="text" placeholder="S/N" value="S/N" disabled />
-        ) : (
-          <Input
-            type="text"
-            placeholder="Número da Residência"
-            maxLength={6}
-            ref={withMask('999999', {
-              placeholder: '',
-              showMaskOnHover: false,
-              showMaskOnFocus: false
-            })} />
-        )}
-        <div className="flex items-center gap-3">
-          <Checkbox id="withoutNumber" onClick={() => setWithoutNumber(prev => !prev)} />
-          <Label htmlFor="withoutNumber" className="opacity-75">Sem número</Label>
+        <div className="flex flex-col gap-2">
+          {withoutNumber ? (
+            <Input type="text" placeholder="S/N" value="S/N" disabled />
+          ) : (
+            <Input
+              type="text"
+              placeholder="Número da Residência"
+              maxLength={6}
+              ref={withMask('999999', {
+                placeholder: '',
+                showMaskOnHover: false,
+                showMaskOnFocus: false
+              })} />
+          )}
+          <div className="flex items-center gap-3">
+            <Checkbox id="withoutNumber" onClick={() => setWithoutNumber(prev => !prev)} />
+            <Label htmlFor="withoutNumber" className="opacity-75 text-nowrap">Sem número</Label>
+          </div>
         </div>
       </div>
     </form>

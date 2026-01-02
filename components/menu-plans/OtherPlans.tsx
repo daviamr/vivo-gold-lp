@@ -6,7 +6,7 @@ function Index({ typePerson }: MenuPlansProp) {
   const [menuOption, setMenuOption] = useState('test')
 
   return (
-    <div id="card-section">
+    <div>
       <ul className="grid grid-cols-2 max-w-70 text-center cursor-pointer">
         <li
           className={`border-b-3 ${(menuOption === 'test' && 'border-default-purple')}`}
