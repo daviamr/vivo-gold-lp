@@ -22,7 +22,8 @@ function Index({ typePerson }: MenuPlansProp) {
       apps: false,
       tv: false,
       tel: false,
-      price: 160
+      price: 160,
+      typePerson
     },
     {
       plan: 'Vivo Total Ultra',
@@ -31,7 +32,8 @@ function Index({ typePerson }: MenuPlansProp) {
       apps: true,
       tv: false,
       tel: false,
-      price: 240
+      price: 240,
+      typePerson
     },
     {
       plan: 'Vivo Total Ultra',
@@ -40,7 +42,8 @@ function Index({ typePerson }: MenuPlansProp) {
       apps: true,
       tv: true,
       tel: false,
-      price: 360
+      price: 360,
+      typePerson
     },
     {
       plan: 'Personalize o seu Plano',
@@ -49,7 +52,8 @@ function Index({ typePerson }: MenuPlansProp) {
       apps: true,
       tv: true,
       tel: true,
-      price: 360
+      price: 360,
+      typePerson
     }
   ]
   const [plans, setPlans] = useState(mockedPlans)
