@@ -1,10 +1,11 @@
 import HeroTop from '../../components/hero/HeroTop'
 import HeroMid from '../../components/hero/HeroMid'
 import NormalPlans from '../../components/menu-plans/NormalPlans'
-import OtherPlans from '../../components/menu-plans/OtherPlans'
 import Benefits from '../../components/benefits/Benefits'
+import AccordionGroup from '../../components/accordion-group/AccordionGroup'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
+import ModalPfPj from '../../components/modal-pf-pj/ModalPfPj'
 
 async function Index({ params }: PersonProp) {
   const { typePerson } = await params
@@ -15,9 +16,9 @@ async function Index({ params }: PersonProp) {
       <div className='container m-auto px-4'>
         <h1 className='my-8 text-3xl max-w-160 font-light'>O plano com Fibra + Pós perfeito para você já está no seu carrinho</h1>
 
-        <NormalPlans />
+        <NormalPlans typePerson={typePerson}/>
 
-        <div className='grid grid-cols-1 mt-4 mb-12'>
+        <div className='grid grid-cols-1 my-12'>
           <div className='flex justify-beetween items-center border-y py-6 w-full'>
             <Link
               href={'https://vivo.com.br/para-voce/produtos-e-servicos/combos/vivo-total/vivo-total-sem-apps'}
@@ -41,16 +42,6 @@ async function Index({ params }: PersonProp) {
 
       <HeroMid />
 
-      <div className='container m-auto px-4'>
-        <div className='my-8 mt-12'>
-          <p className='uppercase font-bold'>Lorem Ipsum + Ipsum</p>
-          <h2 className='text-3xl max-w-160 font-light'>O plano com Fibra + Pós perfeito para você já está no seu carrinho</h2>
-        </div>
-
-        <OtherPlans />
-
-      </div>
-
       <div className='container m-auto px-4 mb-12'>
         <div className='my-8 mt-12'>
           <p className='uppercase font-bold'>Vantagens Vivo Total</p>
@@ -58,11 +49,12 @@ async function Index({ params }: PersonProp) {
         </div>
 
         <Benefits />
-
       </div>
 
-
-
+      <div className='container m-auto px-4'>
+        <AccordionGroup/>
+      </div>
+      
     </div>
   )
 }

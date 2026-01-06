@@ -11,7 +11,7 @@ function Index({ children, bg = false, bgBlack = false, isOpen = true }: Default
   if (!isOpen) return (<div />)
 
   return (
-    <div className={`fixed h-screen w-full flex justify-center items-center p-4 ${bg && 'bg-[#f2f2f2]'} ${bgBlack && 'absolute w-full left-0 bg-black/90'}`}>
+    <div className={`fixed z-10 h-screen w-full flex justify-center items-center p-4 ${bg && 'bg-[#f2f2f2]'} ${bgBlack && 'absolute w-full left-0 bg-black/90'}`}>
       {children}
     </div>
   )

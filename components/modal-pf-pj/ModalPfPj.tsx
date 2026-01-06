@@ -4,10 +4,9 @@ import DefaultModal from '../../components/default-modal/DefaultModal'
 import FormPfPj from '../../components/form-pf-pj/FormPfPj'
 import { Button } from '../ui/button'
 
-function Index({ type }: ModalPfPjProps) {
+function Index({ typePerson }: ModalPfPjProps) {
   const [isModalOpen, setIsModalOpen] = useState(true)
   const [triggerrSubmit, setTriggerSubmit] = useState(false)
-  console.log(type)
   return (
     <DefaultModal bgBlack={true} isOpen={isModalOpen}>
       <div className="w-full grid max-w-125 bg-default-purple rounded-sm lg:grid-cols-2 lg:flex-row lg:items-center lg:max-w-275">
@@ -39,5 +38,5 @@ function Index({ type }: ModalPfPjProps) {
 export default Index
 
 type ModalPfPjProps = {
-  type: any
+  typePerson: any
 }

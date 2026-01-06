@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from '../../components/layout/Header'
-import ModalPfPj from '../../components/modal-pf-pj/ModalPfPj'
 import DefaultLayout from '../../components/layout/DefaultLayout'
+import ConditionalModal from "../../components/conditional-modal/ConditionalModal";
 
 export const metadata: Metadata = {
   title: 'Vivo Fibra - A Melhor Internet Banda Larga da América Latina',
@@ -13,9 +13,8 @@ export default async function TypePersonLayout({ children, params }: PersonLayou
   const { typePerson } = await params
   return (
     <>
-      <ModalPfPj type={typePerson} />
-      
-      <Header typePerson={typePerson}/>
+      <ConditionalModal typePerson={typePerson} />
+      <Header typePerson={typePerson} />
       <DefaultLayout>
         {children}
       </DefaultLayout>

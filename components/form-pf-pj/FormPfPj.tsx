@@ -8,7 +8,6 @@ import { useCallback, useEffect, useState } from "react"
 
 function Index({ onSubmit }: FormPfPjProps) {
   const [withoutNumber, setWithoutNumber] = useState(false)
-  console.log(withoutNumber)
 
   const handleSubmit = useCallback(async () => {
     try {
