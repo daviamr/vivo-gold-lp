@@ -15,10 +15,12 @@ function Index() {
   const [step, setStep] = useState<number>(1)
   const [selectedPlan, setSelectedPlan] = useState<PlanProps | null>(null)
   const [isLoaded, setIsLoaded] = useState(false)
+  const isPF = (selectedPlan?.typePerson === 'pf')
   const STEPS = {
     1: {
-      title: 'Informe seus dados pessoais',
-      subtitle: 'Dados pessoais'
+      title: isPF ? 'Informe seus dados pessoais' :
+        'Mais alguns passos para você aproveitar os serviços da Vivo na sua Empresa.',
+      subtitle: isPF ? 'Dados pessoais' : 'Olá, vamos completar seu pedido!'
     },
     2: {
       title: 'Agora, você precisa completar o endereço',
@@ -56,7 +58,7 @@ function Index() {
     }
   }
 
-  if (!isLoaded) return <div className="h-[calc(100vh-76px)] flex justify-center items-center"><Loader className="animate-spin" size={48} color="purple"/></div>
+  if (!isLoaded) return <div className="h-[calc(100vh-76px)] flex justify-center items-center"><Loader className="animate-spin" size={48} color="purple" /></div>
 
   return (
     <div className="container m-auto px-4 my-12">
@@ -67,7 +69,7 @@ function Index() {
           <CheckoutSteps step={step} />
           {(step === 3) && (
             <div className="bg-white p-4 mt-12 rounded-sm shadow-xs">
-              <p className="font-light mb-4">Dia de vencimento</p>
+              <p className="font-light mb-4">{!isPF ? 'Fatura e Instalação' : 'Dia de vencimento'}</p>
               <p className="text-2xl font-semibold text-gray-800">Qual é o dia de vencimento que melhor se adequa a sua necessidade?</p>
 
               <RadioGroup className="flex items-center justify-center my-2 border rounded-sm">
@@ -78,22 +80,58 @@ function Index() {
                   </div>
                 ))}
               </RadioGroup>
+              {(step === 3 && !isPF) && (
+                <p className="font-light mt-2 mb-4 text-sm">*Sua fatura é digital e será enviada por e-mail.</p>
+              )}
             </div>
           )}
           <div className={`bg-white p-4 rounded-sm shadow-xs ${(step !== 3 ? 'mt-12' : 'mt-4')}`}>
-            <p className={`font-light mb-4 ${(step === 4 && selectedPlan?.typePerson === 'pj') && 'hidden'}`}>{STEPS[step as keyof typeof STEPS].subtitle}</p>
-            <p className={`text-2xl font-semibold text-gray-800 ${(step === 4 && selectedPlan?.typePerson === 'pj') && 'hidden'}`}>{STEPS[step as keyof typeof STEPS].title}</p>
+            <div>
+              <p className={`font-light mb-4 ${(step === 4 && !isPF) && 'hidden'}`}>{STEPS[step as keyof typeof STEPS].subtitle}</p>
+              <p className={`text-2xl font-semibold text-gray-800 ${(step === 4 && !isPF) && 'hidden'}`}>{STEPS[step as keyof typeof STEPS].title}</p>
+              {(step === 3 && !isPF) && (
+                <p className="font-light mt-2 mb-4 text-sm">*Verifique se no local solicitado há restrição de horário para que nossa equipe faça a instalação.</p>
+              )}
+            </div>
 
             {(step === 1 && (
               <div className="mt-8">
-                <div className="grid gap-4 lg:grid-cols-2">
+                {(!isPF) && (
+                  <>
+                    <p className={`text-2xl font-semibold text-gray-800`}>1. Dados da Empresa</p>
+                    <div className="grid gap-4 my-4">
 
-                  <div>
+                      <div>
+                        <Label className="text-1xl font-normal mb-1" htmlFor="cnpj">CNPJ</Label>
+                        <Input
+                          id="cnpj"
+                          type="text"
+                          ref={withMask('99.999.999/9999-99', {
+                            placeholder: '_',
+                            showMaskOnHover: false,
+                            showMaskOnFocus: false
+                          })} />
+                      </div>
+
+                      <div>
+                        <Label className="text-1xl font-normal mb-1" htmlFor="companyName">Razão Social</Label>
+                        <Input id="companyName" type="text" />
+                      </div>
+
+                      <p className={`text-2xl font-semibold text-gray-800`}>2. Dados do Gestor</p>
+
+                    </div>
+                  </>
+                )}
+                <div
+                  className={`grid gap-4 grid-cols-1 lg:grid-cols-2`}>
+
+                  <div className={`${!isPF ? 'col-span-2' : ''}`}>
                     <Label className="text-1xl font-normal mb-1">Nome Completo</Label>
                     <Input type="text" />
                   </div>
 
-                  <div>
+                  <div className={`${!isPF ? 'col-span-2' : ''}`}>
                     <Label className="text-1xl font-normal mb-1">Celular</Label>
                     <Input
                       type="text"
@@ -104,11 +142,31 @@ function Index() {
                       })} />
                   </div>
 
+                  {(!isPF) && (
+                    <span className="flex items-center gap-2 text-sm lg:col-span-2">
+                      <Checkbox /> Tenho autorização legal para contratar em nome da empresa.
+                    </span>
+                  )}
+
                   <div className="lg:col-span-2">
                     <Label className="text-1xl font-normal mb-1">E-mail</Label>
                     <Input type="email" />
                     <span className="opacity-75 text-sm font-light">E-mail para envio da fatura digital.</span>
                   </div>
+
+                  {(!isPF) && (
+                    <div className="col-span-2">
+                      <Label className="text-1xl font-normal mb-1" htmlFor="cpf">CPF</Label>
+                      <Input
+                        id="cpf"
+                        type="text"
+                        ref={withMask('999.999.999-99', {
+                          placeholder: '_',
+                          showMaskOnHover: false,
+                          showMaskOnFocus: false
+                        })} />
+                    </div>
+                  )}
 
                 </div>
               </div>
@@ -163,7 +221,11 @@ function Index() {
                   </div>
 
                   <div className="lg:col-span-2">
-                    <p className="text-2xl">Você mora em:</p>
+                    <p className="text-2xl">
+                      {(isPF) ?
+                        'Você mora em:' :
+                        'Endereço para instalação:'}
+                    </p>
                     <RadioGroup className="flex items-center gap-4 px-4 my-2 lg:px-0">
                       <div className="flex items-center gap-2 lg:ml-4">
                         <RadioGroupItem value="building" id="building" />
@@ -273,7 +335,7 @@ function Index() {
             {(step === 4 && (
               <div className="mt-8">
 
-                {(selectedPlan?.typePerson === 'pj') && (
+                {(!isPF) && (
                   <div className="grid border-b pb-8 mb-6">
                     <p className="text-xl font-semibold text-gray-800">Você já possui um telefone fixo e gostaria de fazer a portabilidade?</p>
 
@@ -322,7 +384,7 @@ function Index() {
 
                 <div className="grid gap-4 lg:grid-cols-2">
 
-                  {(selectedPlan?.typePerson === 'pf') && (
+                  {(isPF) && (
                     <>
                       <div>
                         <Label className="text-1xl font-normal mb-1" htmlFor="cpf">CPF</Label>
